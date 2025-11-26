@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mechanical design manager</title>
+</head>
+<body>
+<h1>Project information</h1>
+<img th:src="@{/imagines/mdm.jpeg}" alt="mechanicak" />
+
+
+<form method="POST" th:action="@{/logout}">
+    <input type="submit" value="Logout"/>
+</form>
+<form method="GET" th:action="@{/project/projects_list}">
+    <input type="submit" value="All projects"/>
+</form>
+
+<form method="GET" th:action="@{'/project/' + ${project.id} + '/unit/new'}" id="new_unit">
+    <input type="submit" value="Add new unit"/>
+</form>
+
+
+<div>Title: <span th:text="${project.title}"></span></div>
+<div>Description: <span th:text="${project.description}"></span></div>
+<div>Start date: <span th:text="${project.startDate}"></span></div>
+<div>End date: <span th:text="${project.endDate}"></span></div>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Description</th>
+    </tr>
+    <tr th:each="unit : ${units}">
+        <td th:text="${unit.id}"></td>
+        <td>
+            <a th:href="@{|/project/${project.id}/unit/${unit.id}|}"
+               th:text="${unit.title}"></a>
+        </td>
+        <td th:text="${unit.description}"></td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>User name</th>
+    </tr>
+    <tr th:each="user : ${users}">
+
+        <td>
+            <a th:href="@{/user/{id}}"
+               th:text="${user.firstName}"></a>
+        </td>
+
+        <td>
+            <a th:href="@{/user/{id}}"
+               th:text="${user.lastName}"></a>
+        </td>
+
+
+        <td>
+            <a th:href="@{/user/{id}}"
+               th:text="${user.username}"></a>
+        </td>
+    </tr>
+</table>
+
+<form method="GET" th:action="@{'/project/' + ${project.id} + '/add_user/list'}">
+    <input type="submit" value="Add user"/>
+</form>
+
+
+
+
+</body>
+</html>

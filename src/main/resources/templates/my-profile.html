@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mechanical design manager</title>
+</head>
+<body>
+<h1>Designer profile</h1>
+<h1>My profile</h1>
+<img th:src="@{/imagines/mdm.jpeg}" alt="mechanicak" />
+
+
+<form method="POST" th:action="@{/logout}">
+    <input type="submit" value="Logout"/>
+</form>
+
+<form method="GET" th:action="@{/admin_tools}">
+    <input type="submit" value="Admin tools"/>
+</form>
+
+
+<div>First name: <span th:text="${user.firstName}"></span></div>
+<div>Last name: <span th:text="${user.lastName}"></span></div>
+<div>Email: <span th:text="${user.email}"></span></div>
+<div>Date of birth: <span th:text="${user.birthDate}"></span></div>
+<div>Date of employment: <span th:text="${user.employmentDate}"></span></div>
+
+<form method="GET" th:action="@{/getMyProjects}">
+    <input type="submit" value="Show my projects"/>
+</form>
+
+<form method="GET" th:action="@{/getMyTasks}">
+    <input type="submit" value="Show my tasks"/>
+</form>
+
+<form method="GET" th:action="@{/generateReport}">
+    <input type="submit" value="Generate report"/>
+</form>
+
+
+
+
+</body>
+</html>

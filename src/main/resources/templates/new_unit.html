@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mechanical design manager</title>
+</head>
+<body>
+<h1>Add new unit</h1>
+<img th:src="@{/imagines/mdm.jpeg}"/>
+<form method="POST" th:action="@{'/project/' + ${project.id} + '/unit/new'}" id="new_unit">
+    <!-- ukryte pole z ID projektu -->
+    <input type="hidden" name="projectId" th:value="${project.id}"/>
+
+    <div>Project: <span th:text="${project.title}"></span></div>
+
+    <label for="title">Unit name: </label>
+    <input type="text" name="title"/><br/>
+
+    <label for="description">Description: </label>
+    <input type="text" name="description"/><br/>
+
+    <input type="submit" value="Add new unit"/>
+</form>
+</body>
+</html>

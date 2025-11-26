@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mechanical design manager</title>
+</head>
+<body>
+<h1>Projects list</h1>
+<img th:src="@{/imagines/mdm.jpeg}"/>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Projects</th>
+        <th>Action</th>
+    </tr>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.firstName}"></td>
+        <td th:text="${user.lastName}"></td>
+        <td>
+            <span th:each="project, iter : ${user.projects}"
+                  th:text="${project.title} + (${iter.last} ? '' : ', ')"></span>
+        </td>
+        <td>
+            <form method="POST" th:action="@{'/project/' + ${projectId} + '/add_user/' + ${user.id}}">
+                <input type="submit" value="Add to project"/>
+            </form>
+        </td>
+    </tr>
+</table>
+<input type="submit" value="Add new user"/>
+
+</body>
+</html>

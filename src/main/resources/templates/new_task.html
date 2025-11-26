@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mechanical design manager</title>
+</head>
+<body>
+<h1>Add new task</h1>
+<img th:src="@{/imagines/mdm.jpeg}"/>
+<form method="POST"  th:action="@{/project/{projectId}/unit/{unitId}/task/new(projectId=${project.id}, unitId=${unit.id})}">
+    <!-- ukryte pole z ID projektu -->
+    <input type="hidden" name="unitId" th:value="${unit.id}"/>
+
+    <div>Unit: <span th:text="${unit.title}"></span></div>
+
+    <label for="taskName">Task name: </label>
+    <input type="text" name="taskName"/><br/>
+
+    <label for="description">Description: </label>
+    <input type="text" name="description"/><br/>
+
+    <label for="user">Designer: </label>
+    <select name="userId" id="user">
+        <option value="">-- select user --</option>
+        <option th:each="user : ${projectUsers}"
+                th:value="${user.id}"
+                th:text="${user.firstName + ' ' + user.lastName}">
+        </option>
+    </select>
+    <br/>
+
+
+
+    <input type="submit" value="Add new task"/>
+</form>
+</body>
+</html>

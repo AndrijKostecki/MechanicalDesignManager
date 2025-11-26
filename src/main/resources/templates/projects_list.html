@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mechanical design manager</title>
+</head>
+<body>
+<h1>Projects list</h1>
+<img th:src="@{/imagines/mdm.jpeg}"/>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Description</th>
+    </tr>
+    <tr th:each="project : ${projects}">
+        <td th:text="${project.id}"></td>
+        <td>
+            <a th:href="@{'/project/' + ${project.id}}"
+               th:text="${project.title}"></a>
+        </td>
+        <td th:text="${project.description}"></td>
+    </tr>
+</table>
+</body>
+</html>

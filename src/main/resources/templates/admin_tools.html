@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mechanical design manager</title>
+</head>
+<body>
+<h1>Admin tools</h1>
+<img th:src="@{/imagines/mdm.jpeg}"/>
+
+<form><a th:href="@{/my-profile}">
+    <button type="button">My profile</button>
+</a>
+</form>
+
+<form method="GET" th:action="@{/user/new}">
+    <input type="submit" value="Add new user"/>
+</form>
+
+<form method="GET" th:action="@{/project/new}">
+    <input type="submit" value="Add new project"/>
+</form>
+
+<form method="GET" th:action="@{/project/projects_list}">
+    <input type="submit" value="All projects"/>
+</form>
+
+
+
+</body>
+</html>

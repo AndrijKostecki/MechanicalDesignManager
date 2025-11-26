@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mechanical design manager</title>
+</head>
+<body>
+
+
+<h1>Designer profile</h1>
+<img th:src="@{/imagines/mdm.jpeg}" alt="mechanicak" />
+
+
+
+<form method="POST" th:action="@{/logout}">
+    <input type="submit" value="Logout"/>
+</form>
+
+<a th:href="@{/my-profile}">
+    <button type="button">My profile</button>
+</a>
+
+
+
+
+<div>First name: <span th:text="${user.firstName}"></span></div>
+<div>Last name: <span th:text="${user.lastName}"></span></div>
+<div>Email: <span th:text="${user.email}"></span></div>
+<div>Date of birth: <span th:text="${user.birthDate}"></span></div>
+<div>Date of employment: <span th:text="${user.employmentDate}"></span></div>
+
+
+
+
+
+</body>
+</html>
