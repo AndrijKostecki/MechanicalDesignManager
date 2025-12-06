@@ -34,7 +34,7 @@ create table if not exists tasks (
     task_name varchar(50) not null,
     description varchar(250) not null,
     unit_id bigint not null,
-    user_id bigint not null,
+    user_id bigint,
     status varchar(50) not null,
     foreign key (unit_id) references units(id),
     foreign key (user_id) references users(id)

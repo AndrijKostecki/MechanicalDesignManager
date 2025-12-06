@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mechanical design manager</title>
+</head>
+<body>
+<h1>Users list</h1>
+<img th:src="@{/imagines/mdm.jpeg}"/>
+
+<div>
+    <a th:href="@{/my-profile}">
+        <button type="button">My profile</button>
+    </a>
+</div>
+
+<div>
+    <a th:href="@{/admin_tools}">
+        <button type="button">Admin tools</button>
+    </a>
+</div>
+
+<table>
+
+    <tr>
+        <th>ID</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Birth date</th>
+        <th>Employment date</th>
+        <th>Projects</th>
+        <th>Edit user</th>
+        <th>Delete user</th>
+    </tr>
+    <tr th:each="user : ${allUsers}">
+        <td th:text="${user.id}"></td>
+        <td>
+
+            <a th:href="@{/user/{id}(id=${user.id})}"
+               th:text="${user.firstName}">
+            </a>
+        </td>
+
+        <td>
+            <a th:href="@{/user/{id}(id=${user.id})}"
+               th:text="${user.lastName}"></a>
+        </td>
+
+
+        <td>
+            <a th:href="@{/user/{id}(id=${user.id})}"
+               th:text="${user.username}"></a>
+        </td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.birthDate}"></td>
+        <td th:text="${user.employmentDate}"></td>
+        <td>
+            <span th:each="project, iter : ${user.projects}"
+                  th:text="${project.title} + (${iter.last } ? '' : ', ')"></span>
+        </td>
+        <td>
+            <a th:href="@{/admin_tools/all_users/edit_user/{id}(id=${user.id})}">
+                <button type="button">Edit</button>
+            </a>
+        </td>
+
+        <td>
+            <form method="POST"
+                  th:action="@{/admin_tools/all_users/delete_user/{id}(id=${user.id})}"
+                  onsubmit="return confirm('Are you sure you want to delete this user?');">
+                <input type="submit" value="Delete"/>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

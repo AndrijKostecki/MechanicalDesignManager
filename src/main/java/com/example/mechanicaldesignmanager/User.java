@@ -33,13 +33,13 @@ public class User implements Serializable, UserDetails {
     private LocalDate birthDate;
     private LocalDate employmentDate;
 
-    @ManyToMany (cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "workers_projects",
     joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name = "project_id"))
     private List<Project> projects = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany (mappedBy = "user")
     private List<Task> tasks = new ArrayList<>();
 
     public User(String username, String password, String firstName,

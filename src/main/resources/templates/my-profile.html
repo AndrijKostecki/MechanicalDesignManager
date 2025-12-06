@@ -18,6 +18,18 @@
     <input type="submit" value="Admin tools"/>
 </form>
 
+<form method="GET" th:action="@{/getMyProjects}">
+    <input type="submit" value="Show my projects (nf)"/>
+</form>
+
+<form method="GET" th:action="@{/getMyTasks}">
+    <input type="submit" value="Show my tasks (nf)"/>
+</form>
+
+<form method="GET" th:action="@{/generateReport}">
+    <input type="submit" value="Generate report (nf)"/>
+</form>
+
 
 <div>First name: <span th:text="${user.firstName}"></span></div>
 <div>Last name: <span th:text="${user.lastName}"></span></div>
@@ -25,17 +37,7 @@
 <div>Date of birth: <span th:text="${user.birthDate}"></span></div>
 <div>Date of employment: <span th:text="${user.employmentDate}"></span></div>
 
-<form method="GET" th:action="@{/getMyProjects}">
-    <input type="submit" value="Show my projects"/>
-</form>
 
-<form method="GET" th:action="@{/getMyTasks}">
-    <input type="submit" value="Show my tasks"/>
-</form>
-
-<form method="GET" th:action="@{/generateReport}">
-    <input type="submit" value="Generate report"/>
-</form>
 
 
 

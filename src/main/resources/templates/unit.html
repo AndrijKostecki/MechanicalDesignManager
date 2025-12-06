@@ -11,6 +11,18 @@
     <input type="submit" value="Logout"/>
 </form>
 
+<div>
+    <a th:href="@{/my-profile}">
+        <button type="button">My profile</button>
+    </a>
+</div>
+
+<div>
+    <a th:href="@{/admin_tools}">
+        <button type="button">Admin tools</button>
+    </a>
+</div>
+
     <div>Project title: <span th:text="${project.title}"></span></div>
     <div>Unit title: <span th:text="${unit.title}"></span></div>
     <div>Unit description: <span th:text="${unit.description}"></span></div>
@@ -29,7 +41,11 @@
 
             <td th:text="${task.description}"></td>
 
-            <td th:text="${task.user.firstName + ' ' + task.user.lastName}"></td>
+            <td>
+                <span th:if="${task.user != null}"
+                    th:text="${task.user.firstName + ' ' + task.user.lastName}"></span>
+                <span th:unless="${task.user != null}">—</span>
+            </td>
 
             <td th:text="${task.status}"></td>
 

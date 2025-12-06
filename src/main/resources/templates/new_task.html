@@ -7,8 +7,21 @@
 <body>
 <h1>Add new task</h1>
 <img th:src="@{/imagines/mdm.jpeg}"/>
+
+<div>
+    <a th:href="@{/my-profile}">
+        <button type="button">My profile</button>
+    </a>
+</div>
+
+<div>
+    <a th:href="@{/admin_tools}">
+        <button type="button">Admin tools</button>
+    </a>
+</div>
+
 <form method="POST"  th:action="@{/project/{projectId}/unit/{unitId}/task/new(projectId=${project.id}, unitId=${unit.id})}">
-    <!-- ukryte pole z ID projektu -->
+
     <input type="hidden" name="unitId" th:value="${unit.id}"/>
 
     <div>Unit: <span th:text="${unit.title}"></span></div>

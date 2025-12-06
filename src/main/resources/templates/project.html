@@ -12,6 +12,19 @@
 <form method="POST" th:action="@{/logout}">
     <input type="submit" value="Logout"/>
 </form>
+
+<div>
+<a th:href="@{/my-profile}">
+    <button type="button">My profile</button>
+</a>
+</div>
+
+<div>
+    <a th:href="@{/admin_tools}">
+    <button type="button">Admin tools</button>
+</a>
+</div>
+
 <form method="GET" th:action="@{/project/projects_list}">
     <input type="submit" value="All projects"/>
 </form>
@@ -49,27 +62,27 @@
         <th>User name</th>
     </tr>
     <tr th:each="user : ${users}">
-
         <td>
-            <a th:href="@{/user/{id}}"
+            <a th:href="@{/user/{id}(id=${user.id})}"
                th:text="${user.firstName}"></a>
         </td>
 
         <td>
-            <a th:href="@{/user/{id}}"
+            <a th:href="@{/user/{id}(id=${user.id})}"
                th:text="${user.lastName}"></a>
         </td>
 
 
         <td>
-            <a th:href="@{/user/{id}}"
+            <a th:href="@{/user/{id}(id=${user.id})}"
                th:text="${user.username}"></a>
         </td>
+
     </tr>
 </table>
 
 <form method="GET" th:action="@{'/project/' + ${project.id} + '/add_user/list'}">
-    <input type="submit" value="Add user"/>
+    <input type="submit" value="Add user to the project"/>
 </form>
 
 
