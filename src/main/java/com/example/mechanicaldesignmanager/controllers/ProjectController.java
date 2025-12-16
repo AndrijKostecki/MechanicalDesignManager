@@ -1,11 +1,10 @@
 package com.example.mechanicaldesignmanager.controllers;
 
-import com.example.mechanicaldesignmanager.AddNewProjectForm;
-import com.example.mechanicaldesignmanager.Project;
-import com.example.mechanicaldesignmanager.Unit;
-import com.example.mechanicaldesignmanager.User;
+import com.example.mechanicaldesignmanager.*;
 import com.example.mechanicaldesignmanager.database.ProjectRepository;
 import com.example.mechanicaldesignmanager.database.UserRepository;
+import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,12 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
 @Controller
-@RequestMapping("/project")
 public class ProjectController {
 
     private ProjectRepository projectRep;
@@ -33,18 +32,18 @@ public class ProjectController {
 
 
 
-    @GetMapping("/new")
+    @GetMapping("/project/new")
     public String AddNewProjectForm (){
         return "new_project";
     }
 
-    @PostMapping("/new")
+    @PostMapping("/project/new")
     public String processAddNewProject (AddNewProjectForm form) {
         Project savedProject = projectRep.save (form.toProject ());
         return "redirect:/project/"+savedProject.getId();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/project/{id}")
     public String projectPage (@PathVariable("id") Long id, Model model) {
         Project project = projectRep.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("Project not found: " + id));
@@ -57,14 +56,14 @@ public class ProjectController {
         return "project";
     }
 
-    @GetMapping("/projects_list")
+    @GetMapping("/admin_tools/projects_list")
     public String GetProjectsList (Model model){
         ArrayList<Project> projectList = (ArrayList<Project>) projectRep.findAll();
         model.addAttribute("projects", projectList);
         return "projects_list";
     }
 
-    @PostMapping ("/{projectId}/add_user/{userId}")
+    @PostMapping ("/project/{projectId}/add_user/{userId}")
     public String addUserToProject (@PathVariable Long projectId, @PathVariable Long userId){
         Project project = projectRep.findById(projectId).orElseThrow(() ->
                 new IllegalArgumentException("Project not found: " + projectId));
@@ -79,5 +78,71 @@ public class ProjectController {
         return "redirect:/project/" + projectId;
 
     }
+
+    @PostMapping("/project/{projectId}/remove_user_from_project/{userId}")
+    public String removeUserFromProject (@PathVariable Long projectId, @PathVariable Long userId){
+
+        Project project = projectRep.findById(projectId).orElseThrow(() ->
+                new IllegalArgumentException("Project not found: " + projectId));
+        User user = userRep.findById(userId).orElseThrow(() ->
+                new IllegalArgumentException("User not found: " + userId));
+        project.getUsers().remove(user);
+        projectRep.save(project);
+
+        user.getProjects().remove(project);
+        userRep.save(user);
+
+
+        return "redirect:/project/" + projectId;
+    }
+
+    @GetMapping("/admin_tools/projects_list/edit_project/{id}")
+    public String editProject (@PathVariable("id") Long projectId, Model model){
+
+        Project project = projectRep.findById(projectId).orElseThrow(()->
+                new IllegalArgumentException("Project not found "+ projectId));
+
+        model.addAttribute("project", project);
+
+
+        return "edit_project";
+    }
+
+    @PostMapping("/admin_tools/projects_list/edit_project/{id}")
+    public String processEditProject (@PathVariable("id") Long projectId, AddNewProjectForm form){
+
+        Project project = projectRep.findById(projectId).orElseThrow(()->
+        new IllegalArgumentException("Project not found "+ projectId));
+
+
+        project.setTitle(form.getTitle());
+        project.setDescription(form.getDescription());
+        project.setStartDate(form.getStartDate());
+        project.setEndDate(form.getEndDate());
+
+        projectRep.save(project);
+
+        return "redirect:/admin_tools/projects_list";
+    }
+
+    @PostMapping("/admin_tools/projects_list/delete_project/{id}")
+    @Transactional
+    public String deleteProject(@PathVariable Long id) {
+
+        Project project = projectRep.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("Project not found " + id));
+
+
+        for (User user : new ArrayList<>(project.getUsers())) {
+            user.getProjects().remove(project);
+        }
+        project.getUsers().clear();
+
+
+        projectRep.delete(project);
+
+        return "redirect:/admin_tools/projects_list";
+    }
+
 
 }

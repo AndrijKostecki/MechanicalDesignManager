@@ -59,6 +59,50 @@ public class UnitController {
     }
 
 
+    @GetMapping("/{projectId}/unit/{id}/edit_unit")
+    public String editUnit(@PathVariable Long projectId,
+                           @PathVariable Long id,
+                           Model model) {
+        Unit unit = unitRepo.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("Unit not found: " + id));
+
+        Project project = unit.getProject();
+        model.addAttribute("unit", unit);
+        model.addAttribute("project", project);
+
+        return "edit_unit";
+    }
+
+    @PostMapping("/{projectId}/unit/{id}/edit_unit")
+
+    public String processEditUnit (@PathVariable Long projectId,
+                                    @PathVariable Long id,
+                                    AddNewUnitForm form) {
+        Unit unit = unitRepo.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("Unit not found: " + id));
+
+        unit.setTitle(form.getTitle());
+        unit.setDescription(form.getDescription());
+        unitRepo.save(unit);
+
+        return "redirect:/project/" + projectId + "/unit/" + id;
+    }
+
+    @PostMapping ("/{projectId}/unit/{id}/delete_unit")
+    public String deleteUnit (@PathVariable Long projectId, @PathVariable Long id){
+
+        Unit unit = unitRepo.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("Unit not found: " + id));
+
+        unitRepo.delete(unit);
+
+
+        return "redirect:/project/" + projectId;
+    }
+
+
+
+
 
 
 }

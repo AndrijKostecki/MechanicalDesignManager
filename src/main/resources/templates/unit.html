@@ -23,6 +23,29 @@
     </a>
 </div>
 
+<div>
+    <a th:href="@{/project/{projectId}/unit/{id}/edit_unit(
+        projectId=${project.id},
+        id=${unit.id}
+)}">
+        <button type="button">Edit unit</button>
+    </a>
+</div>
+
+<div>
+    <form method="POST"
+          th:action="@{/project/{projectId}/unit/{id}/delete_unit(
+          projectId=${project.id},
+          id=${unit.id}
+      )}"
+          onsubmit="return confirm('Are you sure you want to delete this unit?');">
+        <button type="submit">Delete unit</button>
+    </form>
+
+</div>
+
+
+
     <div>Project title: <span th:text="${project.title}"></span></div>
     <div>Unit title: <span th:text="${unit.title}"></span></div>
     <div>Unit description: <span th:text="${unit.description}"></span></div>

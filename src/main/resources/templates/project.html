@@ -25,7 +25,7 @@
 </a>
 </div>
 
-<form method="GET" th:action="@{/project/projects_list}">
+<form method="GET" th:action="@{/admin_tools/projects_list}">
     <input type="submit" value="All projects"/>
 </form>
 
@@ -60,6 +60,7 @@
         <th>First name</th>
         <th>Last name</th>
         <th>User name</th>
+        <th>Remove user from the project</th>
     </tr>
     <tr th:each="user : ${users}">
         <td>
@@ -76,6 +77,14 @@
         <td>
             <a th:href="@{/user/{id}(id=${user.id})}"
                th:text="${user.username}"></a>
+        </td>
+
+        <td>
+            <form method="POST"
+                  th:action="@{/project/{projectId}/remove_user_from_project/{userId}(projectId=${project.id}, userId=${user.id})}"
+                  onsubmit="return confirm('Are you sure you want to remove this user from the project?');">
+                <input type="submit" value="Delete"/>
+            </form>
         </td>
 
     </tr>

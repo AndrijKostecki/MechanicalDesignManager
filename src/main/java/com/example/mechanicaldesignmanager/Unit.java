@@ -32,7 +32,7 @@ public class Unit implements Serializable {
 
 
 
-    @OneToMany(mappedBy = "unit")
+    @OneToMany(mappedBy = "unit", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Task> tasks = new ArrayList<>();
 
 
