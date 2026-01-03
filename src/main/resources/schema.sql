@@ -7,7 +7,8 @@ create table if not exists users (
     last_name varchar(100) not null,
     email varchar(100) not null,
     birth_date date,
-    employment_date date
+    employment_date date,
+    roles varchar(50) not null
     );
 
 -- 2. Project
@@ -48,5 +49,19 @@ create table if not exists workers_projects (
     primary key (user_id, project_id),
     foreign key (user_id) references users(id),
     foreign key (project_id) references projects(id)
+    );
+
+-- 6. TaskWorkLOg
+create table if not exists work_logs (
+
+    id identity primary key,
+
+    user_id bigint  not null,
+    task_id bigint not null,
+
+    work_date date not null,
+    hours int not null,
+    foreign key (user_id) references users(id),
+    foreign key (task_id) references tasks(id)
     );
 

@@ -1,9 +1,6 @@
 package com.example.mechanicaldesignmanager.controllers;
 
-import com.example.mechanicaldesignmanager.AddNewUserForm;
-import com.example.mechanicaldesignmanager.Project;
-import com.example.mechanicaldesignmanager.Task;
-import com.example.mechanicaldesignmanager.User;
+import com.example.mechanicaldesignmanager.*;
 import com.example.mechanicaldesignmanager.database.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -52,7 +49,10 @@ public class UserController {
     }
 
     @GetMapping("/user/new")
-    public String AddNewUserForm (){
+    public String AddNewUserForm (Model model){
+
+        model.addAttribute("roles", Role.values());
+
         return "new_user";
     }
 

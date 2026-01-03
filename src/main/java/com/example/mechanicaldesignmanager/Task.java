@@ -7,7 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Data
@@ -41,6 +42,9 @@ public class Task implements Serializable {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany (mappedBy = "task")
+    private List<TaskWorkLog> taskWorkLogs = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private taskStatus status;

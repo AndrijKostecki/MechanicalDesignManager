@@ -31,7 +31,6 @@ public class Unit implements Serializable {
     private Project project;
 
 
-
     @OneToMany(mappedBy = "unit", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Task> tasks = new ArrayList<>();
 

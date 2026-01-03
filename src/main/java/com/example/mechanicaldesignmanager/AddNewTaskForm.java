@@ -9,4 +9,5 @@ public class AddNewTaskForm {
     private String description;
     private Long userId;
     private Long unitId;
+    private Task.taskStatus status;
 }

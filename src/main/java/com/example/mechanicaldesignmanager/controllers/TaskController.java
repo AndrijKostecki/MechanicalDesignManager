@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -59,6 +60,43 @@ public class TaskController {
         taskRepo.save(task);
         return "redirect:/project/" + projectId + "/unit/" + unitId;
     }
+
+
+    @GetMapping("/project/{projectId}/unit/{unitId}/task/{taskId}/change_status")
+    public String changeTaskStatus(@PathVariable Long projectId, @PathVariable Long unitId,
+            @PathVariable Long taskId, Model model) {
+
+        Task task = taskRepo.findById(taskId)
+                .orElseThrow(() -> new IllegalArgumentException("Task not found: " + taskId));
+
+        List<Task.taskStatus> statuses = Arrays.asList(Task.taskStatus.values());
+
+        Unit unit = task.getUnit();
+        Project project = unit.getProject();
+
+        model.addAttribute("task", task);
+        model.addAttribute("statuses", statuses);
+        model.addAttribute("project", project);
+        model.addAttribute("unit", unit);
+
+
+        return "change_task_status";
+    }
+
+    @PostMapping("/project/{projectId}/unit/{unitId}/task/{taskId}/change_status")
+    public String processChangeTaskStatus(
+            @PathVariable Long taskId, @PathVariable Long projectId, @PathVariable Long unitId, AddNewTaskForm form) {
+
+        Task task = taskRepo.findById(taskId)
+                .orElseThrow(() -> new IllegalArgumentException("Task not found: " + taskId));
+
+        task.setStatus(form.getStatus());
+
+        taskRepo.save(task);
+
+        return "redirect:/project/" + projectId + "/unit/" + unitId;
+    }
+
 
 
 

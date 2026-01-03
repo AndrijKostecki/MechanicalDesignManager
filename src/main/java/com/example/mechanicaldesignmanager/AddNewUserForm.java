@@ -16,10 +16,11 @@ public class AddNewUserForm {
     private String email;
     private LocalDate birthDate;
     private LocalDate employmentDate;
+    private Role role;
 
     public User toUser (PasswordEncoder passwordEncoder) {
         return new User(
                 username, passwordEncoder.encode(password),
-                firstName, lastName, email, birthDate, employmentDate);
+                firstName, lastName, email, birthDate, employmentDate, role);
     }
 }

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mechanical design manager</title>
+</head>
+<body>
+<h1>Report hours</h1>
+<img th:src="@{/imagines/mdm.jpeg}"/>
+
+<div>
+    <a th:href="@{/my-profile}">
+        <button type="button">My profile</button>
+    </a>
+</div>
+
+<div>
+    <a th:href="@{/admin_tools}">
+        <button type="button">Admin tools</button>
+    </a>
+</div>
+
+
+    <form method="POST"
+          th:action="@{/{projectId}/unit/{id}/task/{taskId}/taskworklog (projectId=${project.id}, unitId=${unit.id}, taskId=${task.id})}">
+
+        <label for="task">Task</label>
+        <input type="text" id="task" name="task"
+               th:value="${task.id}" required /><br/>
+
+        <label for="user">User</label>
+        <input type="text" id="user" name="user"
+               th:value="${user.id}" required /><br/>
+
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" /><br/>
+
+        <label for="hours">Hours:</label>
+        <input type="time" id="hours" name="hours" /><br/>
+
+        <input type="submit" value="Add Task work Log"/>
+
+</form>
+</body>
+</html>

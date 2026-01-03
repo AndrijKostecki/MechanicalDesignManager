@@ -42,8 +42,15 @@ public class User implements Serializable, UserDetails {
     @OneToMany (mappedBy = "user")
     private List<Task> tasks = new ArrayList<>();
 
+    @OneToMany (mappedBy = "user")
+    private List<TaskWorkLog> taskWorkLogs = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="roles", nullable = false)
+    private Role role;
+
     public User(String username, String password, String firstName,
-                String lastName, String email, LocalDate birthDate, LocalDate employmentDate) {
+                String lastName, String email, LocalDate birthDate, LocalDate employmentDate, Role role) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -51,7 +58,10 @@ public class User implements Serializable, UserDetails {
         this.email = email;
         this.birthDate = birthDate;
         this.employmentDate = employmentDate;
+        this.role = role;
     }
+
+
 
 
     @Override
