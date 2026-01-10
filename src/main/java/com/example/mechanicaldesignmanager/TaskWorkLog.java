@@ -17,7 +17,7 @@ import java.time.LocalDate;
 public class TaskWorkLog {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne

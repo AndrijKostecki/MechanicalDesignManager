@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mechanical design manager</title>
+</head>
+<body>
+<h1>Task work logs</h1>
+<img th:src="@{/imagines/mdm.jpeg}"/>
+<form method="POST" th:action="@{/logout}">
+    <input type="submit" value="Logout"/>
+</form>
+
+<div>
+    <a th:href="@{/my-profile}">
+        <button type="button">My profile</button>
+    </a>
+</div>
+
+<div>
+    <a th:href="@{/admin_tools}">
+        <button type="button">Admin tools</button>
+    </a>
+</div>
+
+
+<div>Project: <span th:text="${project.title}"></span></div>
+<div>Unit: <span th:text="${unit.title}"></span></div>
+<div>Task: <span th:text="${task.taskName}"></span></div>
+
+<table>
+    <tr>
+        <th>Date</th>
+        <th>User</th>
+        <th>Hours</th>
+    </tr>
+    <tr th:each="log : ${workLogList}">
+        <td th:text="${log.workDate}"></td>
+        <td th:text="${log.user.firstName + ' ' + log.user.lastName}"></td>
+        <td th:text="${log.hours}"></td>
+    </tr>
+</table>
+
+<h3>Total hours: <span th:text="${workHours}"></span></h3>
+
+<a th:href="@{/project/{projectId}/unit/{unitId}(
+        projectId=${project.id},
+        unitId=${unit.id}
+)}">
+    Back to unit
+</a>
+
+
+
+</body>
+</html>

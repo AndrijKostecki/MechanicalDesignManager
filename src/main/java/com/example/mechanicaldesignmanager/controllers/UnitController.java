@@ -2,9 +2,11 @@ package com.example.mechanicaldesignmanager.controllers;
 
 import com.example.mechanicaldesignmanager.AddNewUnitForm;
 import com.example.mechanicaldesignmanager.Project;
+import com.example.mechanicaldesignmanager.Task;
 import com.example.mechanicaldesignmanager.Unit;
 import com.example.mechanicaldesignmanager.database.ProjectRepository;
 import com.example.mechanicaldesignmanager.database.UnitRepository;
+import com.example.mechanicaldesignmanager.service.TaskWorkLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+
 @Controller
 @Slf4j
 @RequestMapping("project")
@@ -20,9 +26,11 @@ public class UnitController {
 
     private UnitRepository unitRepo;
     private ProjectRepository projectRepo;
-    public UnitController(UnitRepository unitRepository, ProjectRepository projectRepo) {
+    private TaskWorkLogService taskWorkLogService;
+    public UnitController(UnitRepository unitRepository, ProjectRepository projectRepo, TaskWorkLogService taskWorkLogService) {
         this.unitRepo= unitRepository;
         this.projectRepo = projectRepo;
+        this.taskWorkLogService = taskWorkLogService;
     }
 
     @GetMapping("/{projectId}/unit/new")
@@ -53,8 +61,17 @@ public class UnitController {
         Unit unit = unitRepo.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("Unit not found: " + id));
         Project project = unit.getProject();
+
+        Map<Long, BigDecimal> taskHoursMap = new HashMap<>();
+
+        for (Task task : unit.getTasks()) {
+            BigDecimal hours = taskWorkLogService.calculateTaskTotalHours(task);
+            taskHoursMap.put(task.getId(), hours);
+        }
+
         model.addAttribute("unit", unit);
         model.addAttribute("project", project);
+        model.addAttribute("taskHoursMap", taskHoursMap);
         return "unit";
     }
 

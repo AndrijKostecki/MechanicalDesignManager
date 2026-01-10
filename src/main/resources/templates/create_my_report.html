@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mechanical design manager</title>
+</head>
+<body>
+<h1>Generate my report</h1>
+<img th:src="@{/imagines/mdm.jpeg}"/>
+
+<div>
+    <a th:href="@{/my-profile}">
+        <button type="button">My profile</button>
+    </a>
+</div>
+
+<div>
+    <a th:href="@{/admin_tools}">
+        <button type="button">Admin tools</button>
+    </a>
+</div>
+
+<form method="POST"
+      th:action="@{/my-profile/my_report}">
+
+    <input type="hidden" name="userId" th:value="${user.id}"/>
+
+    <div>Project: <span th:text="${user.firstName + ' '+user.lastName}"></span></div>
+
+    <label for="startDate">From: </label>
+    <input type="date" id="startDate" name="startDate" /><br/>
+
+    <label for="endDate">To: </label>
+    <input type="date" id="endDate" name="endDate" /><br/>
+
+
+
+    <input type="submit" value="Generate report" />
+
+</form>
+</body>
+</html>

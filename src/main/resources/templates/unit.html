@@ -57,8 +57,11 @@
             <th>Description</th>
             <th>User name</th>
             <th>Status</th>
+            <th>Total hours</th>
+            <th>Edit task</th>
             <th>Change status</th>
             <th>Report work hours</th>
+            <th>Show work logs</th>
         </tr>
         <tr th:each="task : ${unit.tasks}">
 
@@ -73,6 +76,14 @@
             </td>
 
             <td th:text="${task.status}"></td>
+
+            <td th:text="${taskHoursMap[task.id]} ?: 0"></td>
+
+            <td> <a th:href="@{/project/{projectId}/unit/{unitId}/task/{taskId}/edit_task(projectId=${project.id}, unitId=${unit.id}, taskId=${task.id})}">
+                <button type="button">Edit task</button>
+            </a>
+                </a> </td>
+
             <td> <a th:href="@{/project/{projectId}/unit/{unitId}/task/{taskId}/change_status(
         projectId=${project.id},
         unitId=${unit.id},
@@ -82,8 +93,20 @@
             </a>
         </a> </td>
 
-            <td> <a th:href="@{/admin_tools}">
+            <td> <a th:href="@{/project/{projectId}/unit/{unitId}/task/{taskId}/taskworklog(
+        projectId=${project.id},
+        unitId=${unit.id},
+        taskId=${task.id}
+      )}">
                 <button type="button">Report work hours</button>
+            </a> </td>
+
+            <td> <a th:href="@{/project/{projectId}/unit/{unitId}/task/{taskId}/show_workLog(
+        projectId=${project.id},
+        unitId=${unit.id},
+        taskId=${task.id}
+      )}">
+                <button type="button">Show work logs</button>
             </a> </td>
 
             <form method="GET" th:action="@{/user/new}">

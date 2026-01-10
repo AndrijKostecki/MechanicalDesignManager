@@ -98,6 +98,45 @@ public class TaskController {
     }
 
 
+    @GetMapping("/project/{projectId}/unit/{unitId}/task/{taskId}/edit_task")
+    public String editTaskForm (@PathVariable Long projectId,@PathVariable Long unitId, @PathVariable Long taskId, Model model) {
+        Unit unit = unitRepo.findById(unitId)
+                .orElseThrow(() -> new IllegalArgumentException("Unit not found: " + unitId));
+        Task task = taskRepo.findById(taskId)
+                .orElseThrow(() -> new IllegalArgumentException("Task not found: " + taskId));
+        model.addAttribute("unit", unit);
+        List<User> projectUsers = new ArrayList<>(unit.getProject().getUsers());
+        model.addAttribute("projectUsers", projectUsers);
+        model.addAttribute("project", unit.getProject());
+        model.addAttribute("task", task);
+        return "edit_task";
+    }
+
+    @PostMapping("/project/{projectId}/unit/{unitId}/task/{taskId}/edit_task")
+    public String processEditTask(
+            @PathVariable Long projectId,@PathVariable Long unitId, @PathVariable Long taskId,
+            AddNewTaskForm form) {
+
+        Task task = taskRepo.findById(taskId)
+                .orElseThrow(() -> new IllegalArgumentException("Task not found: " + taskId));
+
+
+        User user = userRepo.findById(form.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("User not found: " + form.getUserId()));
+
+
+        task.setTaskName(form.getTaskName());
+        task.setDescription(form.getDescription());
+        task.setUser(user);
+        task.setStatus(Task.taskStatus.OPENED);
+
+        taskRepo.save(task);
+        return "redirect:/project/" + projectId + "/unit/" + unitId;
+    }
+
+
+
+
 
 
 }

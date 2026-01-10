@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mechanical design manager</title>
+</head>
+<body>
+<h1>My report</h1>
+<img th:src="@{/imagines/mdm.jpeg}"/>
+
+<div>
+    <a th:href="@{/my-profile}">
+        <button type="button">My profile</button>
+    </a>
+</div>
+
+<div>
+    <a th:href="@{/admin_tools}">
+        <button type="button">Admin tools</button>
+    </a>
+</div>
+
+<div>
+    <a th:href="@{/my-profile/my_report/pdf(
+        startDate=${userReport.startDate},
+        endDate=${userReport.endDate}
+)}">
+        <button>Export to PDF</button>
+    </a>
+</div>
+
+<p>
+    User: <span th:text="${userReport.user.firstName + ' ' + userReport.user.lastName}"></span>
+</p>
+
+<p>
+    Period:
+    <span th:text="${userReport.startDate}"></span>
+    -
+    <span th:text="${userReport.endDate}"></span>
+</p>
+
+<hr/>
+
+<div th:each="entry : ${userReport.groupedByProjectTasks}">
+    <!-- entry.key = Project -->
+    <!-- entry.value = List<Task> -->
+
+    <h2 th:text="${entry.key.title}"></h2>
+
+    <table border="1">
+        <tr>
+            <th>Task</th>
+            <th>Hours</th>
+        </tr>
+
+        <tr th:each="task : ${entry.value}">
+            <td th:text="${task.taskName}"></td>
+            <td th:text="${userReport.totalTaskHours[task.id]}"></td>
+        </tr>
+    </table>
+
+</div>
+</body>
+</html>

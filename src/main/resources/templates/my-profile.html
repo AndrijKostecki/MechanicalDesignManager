@@ -26,9 +26,11 @@
     <input type="submit" value="Show my tasks (nf)"/>
 </form>
 
-<form method="GET" th:action="@{/generateReport}">
-    <input type="submit" value="Generate report (nf)"/>
-</form>
+<div>
+    <a th:href="@{/my-profile/my_report}">
+        <button type="button">Generate my report</button>
+    </a>
+</div>
 
 
 <div>First name: <span th:text="${user.firstName}"></span></div>

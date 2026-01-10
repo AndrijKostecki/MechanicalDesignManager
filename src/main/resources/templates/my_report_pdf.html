@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <style>
+        body { font-family: Arial; font-size: 12px; }
+        h1, h2 { margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 5px; }
+    </style>
+</head>
+<body>
+
+<h1>User report</h1>
+
+<p>
+    User:
+    <span th:text="${userReport.user.firstName}"></span>
+    <span th:text="${userReport.user.lastName}"></span>
+</p>
+
+<p>
+    Period:
+    <span th:text="${userReport.startDate}"></span>
+    -
+    <span th:text="${userReport.endDate}"></span>
+</p>
+
+<div th:each="entry : ${userReport.groupedByProjectTasks}">
+    <h2 th:text="${entry.key.title}"></h2>
+
+    <table>
+        <tr>
+            <th>Task</th>
+            <th>Hours</th>
+        </tr>
+
+        <tr th:each="task : ${entry.value}">
+            <td th:text="${task.taskName}"></td>
+            <td th:text="${userReport.totalTaskHours[task.id]}"></td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>

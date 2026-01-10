@@ -21,25 +21,53 @@
 </div>
 
 
-    <form method="POST"
-          th:action="@{/{projectId}/unit/{id}/task/{taskId}/taskworklog (projectId=${project.id}, unitId=${unit.id}, taskId=${task.id})}">
+<form method="POST"
+      th:action="@{/project/{projectId}/unit/{unitId}/task/{taskId}/taskworklog(
+        projectId=${project.id},
+        unitId=${unit.id},
+        taskId=${task.id}
+      )}">
 
-        <label for="task">Task</label>
-        <input type="text" id="task" name="task"
-               th:value="${task.id}" required /><br/>
 
-        <label for="user">User</label>
-        <input type="text" id="user" name="user"
-               th:value="${user.id}" required /><br/>
+    <!-- ADMIN: wybór użytkownika -->
+    <div th:if="${isAdmin}">
+        <label for="userId">User</label>
+        <select id="userId" name="userId">
+            <option th:each="u : ${projectUsers}"
+                    th:value="${u.id}"
+                    th:text="${u.firstName + ' ' + u.lastName}">
+            </option>
+        </select>
+    </div>
 
-        <label for="date">Date:</label>
-        <input type="date" id="date" name="date" /><br/>
+    <!-- ZWYKŁY USER -->
+    <div th:if="${!isAdmin}">
+        <label>User</label>
+        <input type="text"
+               th:value="${loggedUser.firstName + ' ' + loggedUser.lastName}"
+               readonly />
+        <input type="hidden" name="userId" th:value="${loggedUser.id}" />
+    </div>
 
-        <label for="hours">Hours:</label>
-        <input type="time" id="hours" name="hours" /><br/>
+    <!-- BLOKADA -->
+    <div th:if="${!isAdmin and !isAssignedUser}">
+        <p style="color:red;">
+            This task is not assigned to you. You cannot report hours.
+        </p>
+    </div>
 
-        <input type="submit" value="Add Task work Log"/>
+    <!-- POLA FORMULARZA -->
+    <div th:if="${isAdmin or isAssignedUser}">
+        <label>Date</label>
+        <input type="date" name="workDate" required/>
+
+        <label>Hours</label>
+        <input type="number" step="0.25" name="hours" required/>
+
+        <button type="submit">Report hours</button>
+    </div>
 
 </form>
+
 </body>
 </html>
