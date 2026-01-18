@@ -15,4 +15,9 @@ public interface TaskWorkLogRepository extends CrudRepository<TaskWorkLog,Long> 
             LocalDate endDate
     );
 
+    List<TaskWorkLog> findByWorkDateBetween(
+            LocalDate startDate,
+            LocalDate endDate
+    );
+
 }

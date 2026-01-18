@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Project report</title>
+</head>
+<body>
+
+<h1>Project report</h1>
+
+<p>
+  <strong>Project:</strong>
+  <span th:text="${project.title}"></span>
+</p>
+
+<p>
+  <strong>Period:</strong>
+  <span th:text="${projectReport.startDate}"></span>
+  -
+  <span th:text="${projectReport.endDate}"></span>
+</p>
+
+<hr/>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>Unit</th>
+    <th>Hours</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="entry : ${projectReport.totalByUnit}">
+    <td th:text="${entry.key.title}"></td>
+    <td th:text="${entry.value}"></td>
+  </tr>
+  </tbody>
+  <tfoot>
+  <tr>
+    <td><strong>Total</strong></td>
+    <td>
+      <strong th:text="${projectReport.totalProjectHours}"></strong>
+    </td>
+  </tr>
+  </tfoot>
+</table>
+
+<a th:href="@{/admin_tools/project_report/pdf(
+        projectId=${project.id},
+        startDate=${projectReport.startDate},
+        endDate=${projectReport.endDate}
+)}">
+  Export to PDF
+</a>
+
+</body>
+</html>

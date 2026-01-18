@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <style>
+    body { font-family: Arial; font-size: 12px; }
+    h1, h2 { margin-top: 20px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid black; padding: 5px; }
+  </style>
+</head>
+<body>
+
+<h1>Project report</h1>
+
+<p>
+  <strong>Project:</strong>
+  <span th:text="${projectReport.project.title}"></span>
+</p>
+
+<p>
+  <strong>Period:</strong>
+  <span th:text="${projectReport.startDate}"></span>
+  -
+  <span th:text="${projectReport.endDate}"></span>
+</p>
+
+<hr/>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>Unit</th>
+    <th>Hours</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="entry : ${projectReport.totalByUnit}">
+    <td th:text="${entry.key.title}"></td>
+    <td th:text="${entry.value}"></td>
+  </tr>
+  </tbody>
+  <tfoot>
+  <tr>
+    <td><strong>Total</strong></td>
+    <td>
+      <strong th:text="${projectReport.totalProjectHours}"></strong>
+    </td>
+  </tr>
+  </tfoot>
+</table>
+
+</body>
+</html>

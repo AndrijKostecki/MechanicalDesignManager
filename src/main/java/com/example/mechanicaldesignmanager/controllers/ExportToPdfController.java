@@ -1,11 +1,12 @@
 package com.example.mechanicaldesignmanager.controllers;
 
+import com.example.mechanicaldesignmanager.Project;
 import com.example.mechanicaldesignmanager.User;
+import com.example.mechanicaldesignmanager.database.ProjectRepository;
 import com.example.mechanicaldesignmanager.database.UserRepository;
+import com.example.mechanicaldesignmanager.reports.ProjectReport;
 import com.example.mechanicaldesignmanager.reports.UserReport;
-import com.example.mechanicaldesignmanager.service.PdfGeneratorService;
-import com.example.mechanicaldesignmanager.service.UserReportService;
-import com.example.mechanicaldesignmanager.service.UserService;
+import com.example.mechanicaldesignmanager.service.*;
 import lombok.Data;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,11 +24,15 @@ import java.util.Map;
 public class ExportToPdfController {
     private UserRepository userRepo;
     private UserReportService userReportService;
+    private ProjectRepository projectRepo;
     private PdfGeneratorService pdfGeneratorService;
+    private ProjectReportService projectReportService;
 
-    public ExportToPdfController(UserRepository userRepo, UserReportService userReportService, PdfGeneratorService pdfGeneratorService) {
+    public ExportToPdfController(UserRepository userRepo, UserReportService userReportService, ProjectRepository projectRepo, ProjectReportService projectReportService, PdfGeneratorService pdfGeneratorService) {
         this.userRepo = userRepo;
         this.userReportService = userReportService;
+        this.projectReportService = projectReportService;
+        this.projectRepo = projectRepo;
         this.pdfGeneratorService = pdfGeneratorService;
     }
 
@@ -48,6 +53,30 @@ public class ExportToPdfController {
 
         return ResponseEntity.ok()
                 .header("Content-Disposition", "attachment; filename=my_report.pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdf);
+    }
+
+    @GetMapping("/admin_tools/project_report/pdf")
+    public ResponseEntity<byte[]> exportProjectReportPdf(
+            @RequestParam Long projectId,
+            @RequestParam LocalDate startDate,
+            @RequestParam LocalDate endDate
+    ) {
+
+        Project project = projectRepo.findById(projectId)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Project not found"));
+        ProjectReport projectReport =
+                projectReportService.generateProjectReport(startDate, endDate, project);
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("projectReport", projectReport);
+
+        byte[] pdf = pdfGeneratorService.generatePdf("project_report_pdf", data);
+
+        return ResponseEntity.ok()
+                .header("Content-Disposition", "attachment; filename=project_report.pdf")
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(pdf);
     }
